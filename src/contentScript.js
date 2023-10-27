@@ -1,43 +1,35 @@
-'use strict';
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   if (message.action === 'copyToClipboard') {
+//     const tempElem = document.createElement('div');
+//     tempElem.style.position = 'absolute';
+//     tempElem.style.left = '-9999px';
+//     tempElem.innerHTML = message.htmlToCopy;
+//     document.body.appendChild(tempElem);
 
-// Content script file will run in the context of web page.
-// With content script you can manipulate the web pages using
-// Document Object Model (DOM).
-// You can also pass information to the parent extension.
+//     const range = document.createRange();
+//     range.selectNodeContents(tempElem);
+//     const selection = window.getSelection();
+//     selection.removeAllRanges();
+//     selection.addRange(range);
 
-// We execute this script by making an entry in manifest.json file
-// under `content_scripts` property
+//     document.execCommand('copy');
+//     document.body.removeChild(tempElem);
+//   }
+// });
 
-// For more information on Content Scripts,
-// See https://developer.chrome.com/extensions/content_scripts
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'copyToClipboard') {
+    const tempElem = document.createElement('div');
+    tempElem.style.position = 'absolute';
+    tempElem.style.left = '-9999px';
+    tempElem.innerHTML = message.htmlToCopy;
+    document.body.appendChild(tempElem);
+    const clipboardItems = new ClipboardItem({
+      'text/plain': new Blob([tempElem.innerText], { type: 'text/plain' }),
+      'text/html': new Blob([tempElem.innerHTML], { type: 'text/html' }),
+    });
+    navigator.clipboard.write([clipboardItems]);
 
-// Log `title` of current active web page
-const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
-
-// Communicate with background file by sending a message
-chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
-    },
-  },
-  (response) => {
-    console.log(response.message);
+    document.body.removeChild(tempElem);
   }
-);
-
-// Listen for message
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
-
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
 });

@@ -2,31 +2,94 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>My Chrome Extension</title>
-    <link rel="stylesheet" href="popup.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Font and Size</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 15px;
+        border: white;
+        border: 5px;
+        background-color: #f1f1f1;
+
+        width: 150px;
+        height: 100px;
+      }
+
+      div {
+        margin-bottom: 5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      select,
+      input[type='number'] {
+        width: 85%;
+        padding: 5px 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .checkbox-label {
+        margin-right: 5px;
+        margin-bottom: 0px;
+      }
+
+      .checkbox-container input[type='checkbox'] {
+        margin-right: 8px;
+      }
+    </style>
   </head>
   <body>
-    <div class="app">
-      <p class="counter-label">Counter</p>
-      <div id="counter" class="counter"></div>
-      <div class="button-container">
-        <button id="decrementBtn" class="button">-</button>
-        <button id="incrementBtn" class="button">+</button>
-      </div>
-
-      <hr class="divider" />
-
-      <p class="title">Chrome Extension is Ready!</p>
-      <p class="subtitle">Start by updating <code>popup.html</code></p>
+    <div>
+      <label for="fontSelect">Font:</label>
+      <select id="fontSelect">
+        <option value="Arial">Arial</option>
+        <option value="calibri">calibri</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Trebuchet MS">Trebuchet MS</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Impact">Impact</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+        <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+        <option value="Lucida Grande">Lucida Grande</option>
+        <option value="Palatino Linotype">Palatino Linotype</option>
+        <option value="Book Antiqua">Book Antiqua</option>
+        <option value="Garamond">Garamond</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Optima">Optima</option>
+        <option value="Hoefler Text">Hoefler Text</option>
+        <option value="Plaster">Plaster</option>
+        <option value="Engagement">Engagement</option>
+      </select>
+    </div>
+    <div>
+      <label for="fontSizeInput">Size:</label>
+      <input
+        type="number"
+        id="fontSizeInput"
+        name="fontSizeInput"
+        min="8"
+        max="200"
+      />
+    </div>
+    <div class="checkbox-container">
+      <label class="checkbox-label" for="underlineToggle">Underline:</label>
+      <input type="checkbox" id="underlineToggle" checked />
     </div>
 
     <script src="popup.js"></script>
-
-    <!--
-      This HTML file opens when you click on icon from the toolbar.
-
-      To begin the development, run `npm run watch`.
-      To create a production bundle, use `npm run build`.
-    -->
   </body>
 </html>
